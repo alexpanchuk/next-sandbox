@@ -9,12 +9,13 @@ const Home: NextPage = () => {
   const [date, setDate] = useState<DateResponse | null>(null);
 
   useEffect(() => {
-    async function getDate() {
+    const timerId = setInterval(async function getDate() {
       const res = await fetch("/api/date");
       const newDate = await res.json();
       setDate(newDate);
-    }
-    getDate();
+    }, 1000);
+
+    return () => clearInterval(timerId);
   }, []);
 
   return (
